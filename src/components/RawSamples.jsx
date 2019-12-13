@@ -1,33 +1,13 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Button } from 'react-materialize';
 import styled from 'styled-components';
-
-const HEADER = {
-  ACCELERATION: 'aX,aY,aZ',
-  GYROSCOPE: 'gX,gY,gZ',
-};
 
 const RawSamples = ({ className, type, data, clearData }) => {
   const textareaRef = useRef(null);
 
-  // TODO: Not really efficient
-  // TODO: No needed to go through all of them every time
-  const value = useMemo(() => {
-    let res = '';
-
-    data.forEach((measurements) => {
-      measurements.forEach((samples) => {
-        res = res.concat(`${samples[0]},${samples[1]},${samples[2]}\n`);
-      });
-      res = res.concat('\n');
-    });
-
-    return res;
-  }, [data]);
-
   const onClear = useCallback(() => {
     clearData(type);
-  }, [clearData, type]);
+  }, []);
 
   const onCopy = useCallback((event) => {
     textareaRef.current.select();
@@ -55,7 +35,7 @@ const RawSamples = ({ className, type, data, clearData }) => {
   return (
     <div className={className}>
       <div className="clear-copy-header">
-        <span>{`Total measurements: ${data.length}`}</span>
+        <span>{`Total measurements: ${data.count}`}</span>
         <Button
           small
           onClick={onClear}
@@ -71,7 +51,7 @@ const RawSamples = ({ className, type, data, clearData }) => {
         </Button>
         <Button
           small
-          onClick={() => onDownloadCSV(data.length)}
+          onClick={() => onDownloadCSV(data.count)}
         >
           Download
         </Button>
@@ -81,7 +61,7 @@ const RawSamples = ({ className, type, data, clearData }) => {
         readOnly
         placeholder="This is the sample data"
         ref={textareaRef}
-        value={`${HEADER[type]}\n${value}`}
+        value={data.rawData}
       />
     </div>
   );

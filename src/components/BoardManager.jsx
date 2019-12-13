@@ -1,29 +1,55 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { MEASURE_TYPE } from '../utils';
-import Accelerometer from './Accelerometer';
+import { MEASURE_TYPE, RAW_DATA_CSV_HEADER } from '../utils';
+import { BLE_ACCELEROMETER_UUID, BLE_GYROSCOPE_UUID } from '../utils/constants';
 import BleConnect from './BleConnect';
-import Gyroscope from './Gyroscope';
+import IMUDataPreview from './IMUDataPreview';
 import RawSamples from './RawSamples';
+
+const appendMeasurement = (previousData, newMeasurement) => {
+  let { rawData } = previousData;
+
+  newMeasurement.forEach((samples) => {
+    rawData = rawData.concat(`${samples[0]},${samples[1]},${samples[2]}\n`);
+  });
+  rawData = rawData.concat('\n');
+
+  return {
+    count: previousData.count + 1,
+    rawData,
+  };
+};
 
 const BoardManager = ({ className }) => {
   const [bleService, setBleService] = useState(null);
-  const [acceleration, setAcceleration] = useState([]);
-  const [gyroscope, setGyroscope] = useState([]);
+  const [rawAcceleration, setRawAcceleration] = useState({
+    count: 0,
+    rawData: RAW_DATA_CSV_HEADER.ACCELERATION,
+  });
+  const [rawGyroscope, setRawGyroscope] = useState({
+    count: 0,
+    rawData: RAW_DATA_CSV_HEADER.GYROSCOPE,
+  });
 
-  const addSample = useCallback((measure) => {
-    if (measure.type === MEASURE_TYPE.ACCELERATION) {
-      setAcceleration((oldValue) => [...oldValue, measure.samples]);
+  const addSample = useCallback(({ type, samples }) => {
+    if (type === MEASURE_TYPE.ACCELERATION) {
+      setRawAcceleration((oldValue) => appendMeasurement(oldValue, samples));
     } else {
-      setGyroscope((oldValue) => [...oldValue, measure.samples]);
+      setRawGyroscope((oldValue) => appendMeasurement(oldValue, samples));
     }
   }, []);
 
   const clearSamples = useCallback((type) => {
     if (type === MEASURE_TYPE.ACCELERATION) {
-      setAcceleration([]);
+      setRawAcceleration({
+        count: 0,
+        rawData: RAW_DATA_CSV_HEADER.ACCELERATION,
+      });
     } else {
-      setGyroscope([]);
+      setRawGyroscope({
+        count: 0,
+        rawData: RAW_DATA_CSV_HEADER.GYROSCOPE,
+      });
     }
   }, []);
 
@@ -39,24 +65,34 @@ const BoardManager = ({ className }) => {
       {bleService && (
         <>
           <div className="preview-container">
-            <Accelerometer
+            <IMUDataPreview
               bleService={bleService}
               addSample={addSample}
+              metadata={{
+                type: MEASURE_TYPE.ACCELERATION,
+                uuid: BLE_ACCELEROMETER_UUID,
+                sensor: 'Accelerometer',
+              }}
             />
-            <Gyroscope
+            <IMUDataPreview
               bleService={bleService}
               addSample={addSample}
+              metadata={{
+                type: MEASURE_TYPE.GYROSCOPE,
+                uuid: BLE_GYROSCOPE_UUID,
+                sensor: 'Gyroscope',
+              }}
             />
           </div>
           <div className="samples-row">
             <RawSamples
               type={MEASURE_TYPE.ACCELERATION}
-              data={acceleration}
+              data={rawAcceleration}
               clearData={clearSamples}
             />
             <RawSamples
               type={MEASURE_TYPE.GYROSCOPE}
-              data={gyroscope}
+              data={rawGyroscope}
               clearData={clearSamples}
             />
           </div>

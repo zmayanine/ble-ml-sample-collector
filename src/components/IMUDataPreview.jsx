@@ -1,16 +1,13 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { IMU_NUM_SAMPLES } from '../utils';
 import bleSubscribe from '../utils/bleSubscribe';
-import { BLE_ACCELEROMETER_UUID, CHART_INITIAL_DATA } from '../utils/constants';
+import {
+  CHART_INITIAL_DATA,
+  IMU_NUM_SAMPLES,
+} from '../utils/constants';
 import MultilineChart from './MultilineChart';
 
-const Accelerometer = ({ className, bleService, addSample }) => {
+const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
   const [chartData, setChartData] = useState({
     x: [...CHART_INITIAL_DATA],
     y: [...CHART_INITIAL_DATA],
@@ -59,8 +56,14 @@ const Accelerometer = ({ className, bleService, addSample }) => {
       && tempData[1].length === IMU_NUM_SAMPLES
       && tempData[2].length === IMU_NUM_SAMPLES) {
       // We received the samples for the whole motion
+      setChartData({
+        x: tempData[0],
+        y: tempData[1],
+        z: tempData[2],
+      });
+
       addSample({
-        type: 'ACCELERATION',
+        type: metadata.type,
         samples: buffer.current.samples,
       });
 
@@ -72,33 +75,27 @@ const Accelerometer = ({ className, bleService, addSample }) => {
           z: [],
         },
       };
-
-      setChartData({
-        x: tempData[0],
-        y: tempData[1],
-        z: tempData[2],
-      });
     }
   }, []);
 
   useEffect(() => {
     bleSubscribe({
       bleService,
-      uuid: BLE_ACCELEROMETER_UUID,
+      uuid: metadata.uuid,
       handler: handleData,
     });
   }, []);
 
   return (
     <div className={className}>
-      <p>Accelerometer last measurement</p>
+      <p>{`${metadata.sensor} - last measurement`}</p>
       <MultilineChart chartData={chartData} />
     </div>
   );
 };
 
-export default styled(Accelerometer)`
+export default styled(IMUDataPreview)`
   width: 100%;
   height: 100%;
-  padding: 0 5px;
+  padding: 5px;
 `;

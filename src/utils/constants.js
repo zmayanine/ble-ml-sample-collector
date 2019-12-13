@@ -8,6 +8,11 @@ export const MEASURE_TYPE = {
   GYROSCOPE: 'gyroscope',
 };
 
+export const RAW_DATA_CSV_HEADER = {
+  ACCELERATION: 'aX,aY,aZ\n',
+  GYROSCOPE: 'gX,gY,gZ\n',
+};
+
 export const BLUETOOTH_STATE = {
   READY: 'Ready to connect!',
   SEARCHING: 'Searching for devices...',
