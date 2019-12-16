@@ -25,4 +25,8 @@ export const BLUETOOTH_STATE = {
 // Number of samples taken by the IMU sensor on Arduino
 export const IMU_NUM_SAMPLES = 120;
 
-export const CHART_INITIAL_DATA = [...Array(IMU_NUM_SAMPLES).keys()].map(() => 0);
+export const CHART_INITIAL_DATA = [...Array(IMU_NUM_SAMPLES).keys()].map(() => ({
+  x: 0,
+  y: 0,
+  z: 0,
+}));

@@ -8,59 +8,43 @@ import {
 import MultilineChart from './MultilineChart';
 
 const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
-  const [chartData, setChartData] = useState({
-    x: [...CHART_INITIAL_DATA],
-    y: [...CHART_INITIAL_DATA],
-    z: [...CHART_INITIAL_DATA],
-  });
+  const [chartData, setChartData] = useState([...CHART_INITIAL_DATA]);
 
   const buffer = useRef({
     samples: [],
-    chart: {
-      x: [],
-      y: [],
-      z: [],
-    },
+    chart: [],
   });
 
   const handleData = useCallback((event) => {
     const receivedData = event.target.value;
-    const tempData = Object.values(buffer.current.chart);
-
+    const tempData = [0, 0, 0];
     let packetPointer = 0;
 
     for (let i = 0; i < tempData.length; i += 1) {
       // Read sensor output value - true => Little Endian
-      const unpackedValue = receivedData.getFloat32(packetPointer, true);
-      // Push sensor reading into data array
-      tempData[i].push(unpackedValue);
+      // and push sensor reading into temp data array
+      tempData[i] = receivedData.getFloat32(packetPointer, true);
       // move pointer forward in data packet to next value
       packetPointer += 4; // Float32 has 4 bytes
     }
 
-    buffer.current.chart = {
+    buffer.current.chart.push({
+      sequence: buffer.current.chart.length,
       x: tempData[0],
       y: tempData[1],
       z: tempData[2],
-    };
+    });
 
-    const lastIndex = tempData[0].length - 1;
-
+    // TODO: Maybe this DS is no longer needed
     buffer.current.samples.push([
-      tempData[0][lastIndex],
-      tempData[1][lastIndex],
-      tempData[2][lastIndex],
+      tempData[0],
+      tempData[1],
+      tempData[2],
     ]);
 
-    if (tempData[0].length === IMU_NUM_SAMPLES
-      && tempData[1].length === IMU_NUM_SAMPLES
-      && tempData[2].length === IMU_NUM_SAMPLES) {
+    if (buffer.current.chart.length === IMU_NUM_SAMPLES) {
       // We received the samples for the whole motion
-      setChartData({
-        x: tempData[0],
-        y: tempData[1],
-        z: tempData[2],
-      });
+      setChartData(buffer.current.chart);
 
       addSample({
         type: metadata.type,
@@ -69,11 +53,7 @@ const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
 
       buffer.current = {
         samples: [],
-        chart: {
-          x: [],
-          y: [],
-          z: [],
-        },
+        chart: [],
       };
     }
   }, []);
@@ -89,7 +69,10 @@ const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
   return (
     <div className={className}>
       <p>{`${metadata.sensor} - last measurement`}</p>
-      <MultilineChart chartData={chartData} />
+      <MultilineChart
+        chartData={chartData}
+        type={metadata.type}
+      />
     </div>
   );
 };
