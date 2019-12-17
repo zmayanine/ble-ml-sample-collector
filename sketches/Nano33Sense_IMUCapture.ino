@@ -20,9 +20,6 @@ int samplesRead = NUM_SAMPLES;
 String deviceName = "BLEMLCapture-";
 
 void setup() {
-    Serial.begin(9600);
-    // while(!Serial);
-
     // Init IMU sensor
     if (!IMU.begin()) {
         // Failed!
@@ -39,16 +36,10 @@ void setup() {
     String BLEAddress = BLE.address();
     BLEAddress.toUpperCase();
 
-    Serial.print("BLEAddress = ");
-    Serial.println(BLEAddress);
-
     deviceName += BLEAddress[BLEAddress.length() - 5];
     deviceName += BLEAddress[BLEAddress.length() - 4];
     deviceName += BLEAddress[BLEAddress.length() - 2];
     deviceName += BLEAddress[BLEAddress.length() - 1];
-
-    Serial.print("deviceName = ");
-    Serial.println(deviceName);
 
     BLE.setLocalName(deviceName.c_str());
     BLE.setDeviceName(deviceName.c_str());
@@ -91,26 +82,6 @@ void loop() {
                     IMU.readGyroscope(gX, gY, gZ);
 
                     samplesRead++;
-
-                    // print the data in CSV format
-                    // Serial.print(aX, 3);
-                    // Serial.print(',');
-                    // Serial.print(aY, 3);
-                    // Serial.print(',');
-                    // Serial.print(aZ, 3);
-                    // Serial.print(',');
-                    // Serial.print(gX, 3);
-                    // Serial.print(',');
-                    // Serial.print(gY, 3);
-                    // Serial.print(',');
-                    // Serial.print(gZ, 3);
-                    // Serial.println();
-
-                    // if (samplesRead == NUM_SAMPLES)
-                    // {
-                    //     // add an empty line if it's the last sample
-                    //     Serial.println();
-                    // }
 
                     // Send those over BLE
                     float acceleration[3] = {aX, aY, aZ};

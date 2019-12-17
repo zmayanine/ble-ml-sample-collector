@@ -1,8 +1,14 @@
+import PropTypes from 'prop-types';
 import React, { useCallback, useRef } from 'react';
 import { Button } from 'react-materialize';
 import styled from 'styled-components';
 
-const RawSamples = ({ className, type, data, clearData }) => {
+const RawSamples = ({
+  className,
+  type,
+  data,
+  clearData,
+}) => {
   const textareaRef = useRef(null);
 
   const onClear = useCallback(() => {
@@ -67,6 +73,16 @@ const RawSamples = ({ className, type, data, clearData }) => {
   );
 };
 
+RawSamples.propTypes = {
+  className: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    count: PropTypes.number.isRequired,
+    rawData: PropTypes.string.isRequired,
+  }).isRequired,
+  clearData: PropTypes.func.isRequired,
+};
+
 export default styled(RawSamples)`
   height: 100%;
   width: 100%;
@@ -79,7 +95,7 @@ export default styled(RawSamples)`
     font-family: monospace;
     font-size: 12px;
   }
-  
+
   .clear-copy-header {
     display: grid;
     grid-auto-flow: column;
@@ -87,7 +103,7 @@ export default styled(RawSamples)`
     grid-column-gap: 10px;
     align-items: center;
     padding-bottom: 10px;
-    
+
     .copy-button {
       margin-left: 50px;
     }

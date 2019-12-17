@@ -1,24 +1,16 @@
+import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { MEASURE_TYPE, RAW_DATA_CSV_HEADER } from '../utils';
-import { BLE_ACCELEROMETER_UUID, BLE_GYROSCOPE_UUID } from '../utils/constants';
+import {
+  MEASURE_TYPE,
+  RAW_DATA_CSV_HEADER,
+  BLE_ACCELEROMETER_UUID,
+  BLE_GYROSCOPE_UUID,
+  parseMeasurement,
+} from '../utils';
 import BleConnect from './BleConnect';
 import IMUDataPreview from './IMUDataPreview';
 import RawSamples from './RawSamples';
-
-const appendMeasurement = (previousData, newMeasurement) => {
-  let { rawData } = previousData;
-
-  newMeasurement.forEach((samples) => {
-    rawData = rawData.concat(`${samples[0]},${samples[1]},${samples[2]}\n`);
-  });
-  rawData = rawData.concat('\n');
-
-  return {
-    count: previousData.count + 1,
-    rawData,
-  };
-};
 
 const BoardManager = ({ className }) => {
   const [bleService, setBleService] = useState(null);
@@ -33,9 +25,9 @@ const BoardManager = ({ className }) => {
 
   const addSample = useCallback(({ type, samples }) => {
     if (type === MEASURE_TYPE.ACCELERATION) {
-      setRawAcceleration((oldValue) => appendMeasurement(oldValue, samples));
+      setRawAcceleration((oldValue) => parseMeasurement(oldValue, samples));
     } else {
-      setRawGyroscope((oldValue) => appendMeasurement(oldValue, samples));
+      setRawGyroscope((oldValue) => parseMeasurement(oldValue, samples));
     }
   }, []);
 
@@ -102,6 +94,14 @@ const BoardManager = ({ className }) => {
   );
 };
 
+BoardManager.propTypes = {
+  className: PropTypes.string,
+};
+
+BoardManager.defaultProps = {
+  className: '',
+};
+
 export default styled(BoardManager)`
   display: grid;
   grid-template-rows: min-content max-content auto;
@@ -114,7 +114,7 @@ export default styled(BoardManager)`
     display: flex;
     flex-direction: row;
   }
-  
+
   .preview-container {
     display: flex;
     flex-direction: row;

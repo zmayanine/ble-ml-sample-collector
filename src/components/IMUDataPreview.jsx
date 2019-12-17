@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import bleSubscribe from '../utils/bleSubscribe';
 import {
@@ -7,13 +13,14 @@ import {
 } from '../utils/constants';
 import MultilineChart from './MultilineChart';
 
-const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
+const IMUDataPreview = ({
+  metadata,
+  className,
+  bleService,
+  addSample,
+}) => {
   const [chartData, setChartData] = useState([...CHART_INITIAL_DATA]);
-
-  const buffer = useRef({
-    samples: [],
-    chart: [],
-  });
+  const buffer = useRef([]);
 
   const handleData = useCallback((event) => {
     const receivedData = event.target.value;
@@ -28,33 +35,23 @@ const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
       packetPointer += 4; // Float32 has 4 bytes
     }
 
-    buffer.current.chart.push({
-      sequence: buffer.current.chart.length,
+    buffer.current.push({
+      sequence: buffer.current.length + 1,
       x: tempData[0],
       y: tempData[1],
       z: tempData[2],
     });
 
-    // TODO: Maybe this DS is no longer needed
-    buffer.current.samples.push([
-      tempData[0],
-      tempData[1],
-      tempData[2],
-    ]);
-
-    if (buffer.current.chart.length === IMU_NUM_SAMPLES) {
+    if (buffer.current.length === IMU_NUM_SAMPLES) {
       // We received the samples for the whole motion
-      setChartData(buffer.current.chart);
+      setChartData(buffer.current);
 
       addSample({
         type: metadata.type,
-        samples: buffer.current.samples,
+        samples: buffer.current,
       });
 
-      buffer.current = {
-        samples: [],
-        chart: [],
-      };
+      buffer.current = [];
     }
   }, []);
 
@@ -77,8 +74,22 @@ const IMUDataPreview = ({ metadata, className, bleService, addSample }) => {
   );
 };
 
+IMUDataPreview.propTypes = {
+  metadata: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
+    sensor: PropTypes.string.isRequired,
+  }).isRequired,
+  className: PropTypes.string,
+  bleService: PropTypes.shape({}).isRequired,
+  addSample: PropTypes.func.isRequired,
+};
+
+IMUDataPreview.defaultProps = {
+  className: '',
+};
+
 export default styled(IMUDataPreview)`
   width: 100%;
   height: 100%;
-  padding: 5px;
 `;

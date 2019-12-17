@@ -7,7 +7,7 @@
  * @return {Promise<void>}
  */
 const bleSubscribe = async ({ bleService, handler, uuid }) => {
-  console.log('BLE - Subscribing to uuid: ', uuid);
+  console.log('BLE - Subscribing to service: ', uuid);
 
   const characteristic = await bleService.getCharacteristic(uuid);
 
@@ -15,7 +15,7 @@ const bleSubscribe = async ({ bleService, handler, uuid }) => {
 
   await characteristic.startNotifications();
 
-  console.log('BLE - Subscribed to: ', uuid);
+  console.log('BLE - Subscribed to service: ', uuid);
 };
 
 export default bleSubscribe;

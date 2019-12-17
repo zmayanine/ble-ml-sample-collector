@@ -1,9 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from 'react-materialize';
 import styled from 'styled-components';
-import { BLUETOOTH_STATE } from '../utils';
-import bleConnect from '../utils/bleConnect';
-import bleGetFwVersion from '../utils/bleGetFwVersion';
+import { BLUETOOTH_STATE, bleConnect, bleGetFwVersion } from '../utils';
 
 const BleConnect = ({ className, setService, bleService }) => {
   const [status, setStatus] = useState(BLUETOOTH_STATE.READY);
@@ -11,6 +10,7 @@ const BleConnect = ({ className, setService, bleService }) => {
 
   const onConnect = useCallback(async () => {
     await bleConnect({ setStatus, setService });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -29,6 +29,17 @@ const BleConnect = ({ className, setService, bleService }) => {
       <span>{`Firmware version: ${version}`}</span>
     </div>
   );
+};
+
+BleConnect.propTypes = {
+  bleService: PropTypes.shape({}),
+  className: PropTypes.string,
+  setService: PropTypes.func.isRequired,
+};
+
+BleConnect.defaultProps = {
+  bleService: null,
+  className: '',
 };
 
 export default styled(BleConnect)`
