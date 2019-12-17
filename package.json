@@ -1,7 +1,7 @@
 {
-  "name": "board-monitor",
+  "name": "ble-ml-sample-collection",
   "version": "1.0.0",
-  "description": "",
+  "description": "Collecting and visualizing machine learning sample data with Web Bluetooth.",
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./src --fix",
@@ -45,5 +45,9 @@
   },
   "engines": {
     "node": ">12.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zmayanine/ble-ml-sample-collection.git"
   }
 }
