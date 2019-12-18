@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button } from 'react-materialize';
 import styled from 'styled-components';
 import { BLUETOOTH_STATE, bleConnect, bleGetFwVersion } from '../utils';
 
@@ -24,7 +23,13 @@ const BleConnect = ({ className, setService, bleService }) => {
 
   return (
     <div className={className}>
-      <Button onClick={onConnect}>Connect</Button>
+      <button
+        type="button"
+        className="btn"
+        onClick={onConnect}
+      >
+        Connect
+      </button>
       <span>{status}</span>
       <span>{`Firmware version: ${version}`}</span>
     </div>

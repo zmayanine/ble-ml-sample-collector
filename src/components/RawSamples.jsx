@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useRef } from 'react';
-import { Button } from 'react-materialize';
 import styled from 'styled-components';
 
 const RawSamples = ({
@@ -13,6 +12,7 @@ const RawSamples = ({
 
   const onClear = useCallback(() => {
     clearData(type);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onCopy = useCallback((event) => {
@@ -36,31 +36,34 @@ const RawSamples = ({
     setTimeout(() => {
       URL.revokeObjectURL(blobURL);
     }, 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className={className}>
       <div className="clear-copy-header">
         <span>{`Total measurements: ${data.count}`}</span>
-        <Button
-          small
+        <button
+          className="btn btn-small"
+          type="button"
           onClick={onClear}
         >
           Clear
-        </Button>
-        <Button
-          className="copy-button"
-          small
+        </button>
+        <button
+          className="btn btn-small copy-button"
+          type="button"
           onClick={onCopy}
         >
           Copy
-        </Button>
-        <Button
-          small
+        </button>
+        <button
+          className="btn btn-small"
+          type="button"
           onClick={() => onDownloadCSV(data.count)}
         >
           Download
-        </Button>
+        </button>
       </div>
       <textarea
         className="raw-data-textarea"
