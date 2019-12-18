@@ -1,5 +1,6 @@
 {
   "name": "ble-ml-sample-collector",
+  "homepage": "https://zmayanine.github.com/ble-ml-sample-collector",
   "version": "1.0.0",
   "description": "Collecting and visualizing machine learning sample data with Web Bluetooth.",
   "main": "index.js",
@@ -7,8 +8,7 @@
     "lint": "eslint ./src --fix",
     "start": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
