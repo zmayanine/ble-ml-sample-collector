@@ -1,5 +1,5 @@
 {
-  "name": "ble-ml-sample-collection",
+  "name": "ble-ml-sample-collector",
   "version": "1.0.0",
   "description": "Collecting and visualizing machine learning sample data with Web Bluetooth.",
   "main": "index.js",
@@ -7,6 +7,8 @@
     "lint": "eslint ./src --fix",
     "start": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,6 +26,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-react-hooks": "1.7.0",
+    "gh-pages": "2.1.1",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "3.2.0",
     "style-loader": "1.0.1",
