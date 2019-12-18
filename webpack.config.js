@@ -34,7 +34,7 @@ module.exports = {
     app: ['./src/index.jsx'],
     polyfills: ['core-js/stable', 'regenerator-runtime/runtime'],
   },
-  // To exclude amCharts exporting stuff, which aren't used
+  // To exclude amCharts exporting stuff
   externals: (context, request, callback) => {
     if (/xlsx|canvg|pdfmake/.test(request)) {
       return callback(null, `commonjs ${request}`);
