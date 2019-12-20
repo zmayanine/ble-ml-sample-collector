@@ -14,6 +14,7 @@ import bleGetFwVersion from './bleGetFwVersion';
 import parseMeasurement from './parseMeasurement';
 import getMultilineChartConfig from './getMultilineChartConfig';
 import validateUuid from './validateUuid';
+import getDebounce from './getDebounce';
 
 /* Constants */
 export {
@@ -38,6 +39,7 @@ export {
 export {
   parseMeasurement,
   validateUuid,
+  getDebounce,
 };
 
 /* Chart configs */

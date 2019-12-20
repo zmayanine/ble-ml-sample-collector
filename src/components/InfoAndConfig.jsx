@@ -17,11 +17,12 @@ const InfoAndConfig = ({ className, setCustomUuids }) => (
     >
         Follow
     </a>
+    <span>&nbsp;&nbsp;Have questions? Feel free to DM me.</span>
     <p>
       <span>
         The default UUIDs used for searching and connecting to BLE services service and
         characteristics, are the ones used in the sketches for Arduino Nano 33 BLE Sense board.
-        The sketches can be found&nbsp;
+        Sketches can be found&nbsp;
       </span>
       <a
         href="https://github.com/zmayanine/ble-ml-sample-collector/tree/master/sketches"

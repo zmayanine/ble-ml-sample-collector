@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -6,6 +6,8 @@ import {
   BLE_GYROSCOPE_UUID,
   BLE_SERVICE_UUID,
   BLE_VERSION_UUID,
+  getDebounce,
+  validateUuid,
 } from '../utils';
 import InputField from './InputField';
 
@@ -27,7 +29,11 @@ const CONFIG_FIELDS = [{
   uuid: BLE_GYROSCOPE_UUID,
 }];
 
+const debounce = getDebounce(3000); // 3s
+
 const ConfigForm = ({ className, setUuids }) => {
+  const [invalidFields, setInvalidFields] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
   const newUuids = useRef({
     serviceUuid: BLE_SERVICE_UUID,
     versionUuid: BLE_VERSION_UUID,
@@ -40,10 +46,27 @@ const ConfigForm = ({ className, setUuids }) => {
   }, []);
 
   const onSaveConfig = useCallback(() => {
-    // If non-empty ones are valid, then save
-    // And show small saved message
-    setUuids(newUuids.current);
+    const invalid = [];
+    Object.entries(newUuids.current).forEach(([key, value]) => {
+      if (!validateUuid(value)) {
+        invalid.push(key);
+      }
+    });
+
+    setInvalidFields(invalid);
+
+    if (invalid.length === 0) {
+      setUuids(newUuids.current);
+    }
+
+    setIsSaved(true);
+
+    debounce(() => {
+      setIsSaved(false);
+    });
   }, [setUuids]);
+
+  const copiedClassname = (isSaved && invalidFields && invalidFields.length === 0) ? 'saved' : '';
 
   return (
     <div className={className}>
@@ -52,10 +75,11 @@ const ConfigForm = ({ className, setUuids }) => {
           key={data.dataId}
           metadata={data}
           onChangeValue={onChangeHandler}
-          showErrorMessage={false}
+          isValid={!!invalidFields && !invalidFields.includes(data.dataId)}
+          showError={invalidFields !== null}
         />
       ))}
-      <div>
+      <div className="save-section">
         <button
           type="button"
           className="btn btn-small save-button"
@@ -63,7 +87,9 @@ const ConfigForm = ({ className, setUuids }) => {
         >
           Save
         </button>
-        <span>Copied!</span>
+        <span className={['copied-message', copiedClassname].join(' ')}>
+          Saved!
+        </span>
       </div>
     </div>
   );
@@ -76,8 +102,18 @@ ConfigForm.propTypes = {
 
 export default styled(ConfigForm)`
   padding: 5px 20px 0 0;
-  
-  .save-button {
-    margin-top: 30px;
+
+  .save-section {
+    padding-top: 30px;
+  }
+
+  .copied-message {
+    opacity: 0;
+    padding-left: 15px;
+    transition: opacity .250s linear;
+
+    &.saved {
+      opacity: 1;
+    }
   }
 `;
