@@ -1,15 +1,14 @@
-import { BLE_VERSION_UUID } from './constants';
-
 /**
  * Retrieves firmware version from the BLE service
  * @param bleService - BLE service
  * @param setVersion - Callback function for setting the firmware version
+ * @param versionUuid - UUID of the version characteristic
  * @return {Promise<void>}
  */
-const bleGetFwVersion = async ({ bleService, setVersion }) => {
-  console.log('BLE - Getting FW version on: ', BLE_VERSION_UUID);
+const bleGetFwVersion = async ({ bleService, setVersion, versionUuid }) => {
+  console.log('BLE - Getting FW version on: ', versionUuid);
 
-  const characteristic = await bleService.getCharacteristic(BLE_VERSION_UUID);
+  const characteristic = await bleService.getCharacteristic(versionUuid);
 
   characteristic.readValue().then((value) => {
     const major = value.getInt8(3, true);
@@ -19,7 +18,7 @@ const bleGetFwVersion = async ({ bleService, setVersion }) => {
     setVersion(`v${major}.${minor}.${patch}`);
   });
 
-  console.log('BLE - Version retrieved from: ', BLE_VERSION_UUID);
+  console.log('BLE - Version retrieved from: ', versionUuid);
 };
 
 export default bleGetFwVersion;

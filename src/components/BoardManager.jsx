@@ -6,10 +6,13 @@ import {
   RAW_DATA_CSV_HEADER,
   BLE_ACCELEROMETER_UUID,
   BLE_GYROSCOPE_UUID,
+  BLE_VERSION_UUID,
+  BLE_SERVICE_UUID,
   parseMeasurement,
 } from '../utils';
 import BleConnect from './BleConnect';
 import IMUDataPreview from './IMUDataPreview';
+import InfoAndConfig from './InfoAndConfig';
 import RawSamples from './RawSamples';
 
 const BoardManager = ({ className }) => {
@@ -21,6 +24,12 @@ const BoardManager = ({ className }) => {
   const [rawGyroscope, setRawGyroscope] = useState({
     count: 0,
     rawData: RAW_DATA_CSV_HEADER.GYROSCOPE,
+  });
+  const [uuids, setUuids] = useState({
+    serviceUuid: BLE_SERVICE_UUID,
+    versionUuid: BLE_VERSION_UUID,
+    accelerationUuid: BLE_ACCELEROMETER_UUID,
+    gyroscopeUuid: BLE_GYROSCOPE_UUID,
   });
 
   const addSample = useCallback(({ type, samples }) => {
@@ -48,11 +57,15 @@ const BoardManager = ({ className }) => {
   return (
     <div className={`${className}`}>
       <BleConnect
+        serviceUuid={uuids.serviceUuid}
+        versionUuid={uuids.versionUuid}
         setService={setBleService}
         bleService={bleService}
       />
       {!bleService && (
-        <div>Waiting for device to connect</div>
+        <InfoAndConfig
+          setCustomUuids={setUuids}
+        />
       )}
       {bleService && (
         <>
@@ -62,7 +75,7 @@ const BoardManager = ({ className }) => {
               addSample={addSample}
               metadata={{
                 type: MEASURE_TYPE.ACCELERATION,
-                uuid: BLE_ACCELEROMETER_UUID,
+                uuid: uuids.accelerationUuid,
                 sensor: 'Accelerometer',
               }}
             />
@@ -71,7 +84,7 @@ const BoardManager = ({ className }) => {
               addSample={addSample}
               metadata={{
                 type: MEASURE_TYPE.GYROSCOPE,
-                uuid: BLE_GYROSCOPE_UUID,
+                uuid: uuids.gyroscopeUuid,
                 sensor: 'Gyroscope',
               }}
             />

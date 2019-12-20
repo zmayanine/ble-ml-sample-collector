@@ -3,23 +3,29 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BLUETOOTH_STATE, bleConnect, bleGetFwVersion } from '../utils';
 
-const BleConnect = ({ className, setService, bleService }) => {
+const BleConnect = ({
+  className,
+  setService,
+  bleService,
+  serviceUuid,
+  versionUuid,
+}) => {
   const [status, setStatus] = useState(BLUETOOTH_STATE.READY);
   const [version, setVersion] = useState('-');
 
   const onConnect = useCallback(async () => {
-    await bleConnect({ setStatus, setService });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    await bleConnect({ setStatus, setService, serviceUuid });
+  }, [serviceUuid]);
 
   useEffect(() => {
     if (bleService) {
       bleGetFwVersion({
         bleService,
         setVersion,
+        versionUuid,
       });
     }
-  }, [bleService]);
+  }, [bleService, versionUuid]);
 
   return (
     <div className={className}>
@@ -40,6 +46,8 @@ BleConnect.propTypes = {
   bleService: PropTypes.shape({}),
   className: PropTypes.string,
   setService: PropTypes.func.isRequired,
+  serviceUuid: PropTypes.string.isRequired,
+  versionUuid: PropTypes.string.isRequired,
 };
 
 BleConnect.defaultProps = {

@@ -5,12 +5,15 @@ import {
   RAW_DATA_CSV_HEADER,
   BLE_ACCELEROMETER_UUID,
   BLE_GYROSCOPE_UUID,
+  BLE_VERSION_UUID,
+  BLE_SERVICE_UUID,
 } from './constants';
 import bleConnect from './bleConnect';
 import bleSubscribe from './bleSubscribe';
 import bleGetFwVersion from './bleGetFwVersion';
 import parseMeasurement from './parseMeasurement';
 import getMultilineChartConfig from './getMultilineChartConfig';
+import validateUuid from './validateUuid';
 
 /* Constants */
 export {
@@ -20,6 +23,8 @@ export {
   RAW_DATA_CSV_HEADER,
   BLE_ACCELEROMETER_UUID,
   BLE_GYROSCOPE_UUID,
+  BLE_VERSION_UUID,
+  BLE_SERVICE_UUID,
 };
 
 /* BLE helpers */
@@ -30,7 +35,10 @@ export {
 };
 
 /* Data helpers */
-export { parseMeasurement };
+export {
+  parseMeasurement,
+  validateUuid,
+};
 
 /* Chart configs */
 export { getMultilineChartConfig };

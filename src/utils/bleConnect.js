@@ -1,18 +1,19 @@
-import { BLUETOOTH_STATE, BLE_SERVICE_UUID } from './constants';
+import { BLUETOOTH_STATE } from './constants';
 
 /**
  * Function handles connecting to the BLE device
  * @param setStatus - Updates connection status
  * @param setService - Sets retrieved BLE service, from the device
+ * @param serviceUuid - UUID of the Bluetooth service
  * @return {Promise<void>}
  */
-const bleConnect = async ({ setStatus, setService }) => {
+const bleConnect = async ({ setStatus, setService, serviceUuid }) => {
   setStatus(BLUETOOTH_STATE.SEARCHING);
-  console.log('BLE - Searching...');
+  console.log('BLE - Searching...', serviceUuid);
 
   const device = await navigator.bluetooth.requestDevice({
     filters: [{
-      services: [BLE_SERVICE_UUID],
+      services: [serviceUuid],
     }],
   });
 
@@ -30,7 +31,7 @@ const bleConnect = async ({ setStatus, setService }) => {
   setStatus(BLUETOOTH_STATE.GETTING_SERVICE);
 
   console.log('BLE - Getting service...');
-  const service = await server.getPrimaryService(BLE_SERVICE_UUID);
+  const service = await server.getPrimaryService(serviceUuid);
 
   setService(service);
   setStatus(BLUETOOTH_STATE.CONNECTED);
