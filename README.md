@@ -56,7 +56,7 @@ bleAccelCharacteristic.writeValue(acceleration, sizeOf(acceleration));
 #### Gyroscope
 Number of samples for one measurement of the gyroscope is 120. 
 The app expects 120 arrays, each array consists of 3 floats: `[xValue, yValue, zValue]`. Here's an example of it:
-```
+```c
 // Init
 float gX, gY, gZ;
 

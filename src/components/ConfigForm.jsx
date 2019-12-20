@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
@@ -31,18 +31,24 @@ const CONFIG_FIELDS = [{
 
 const debounce = getDebounce(3000); // 3s
 
+const INITIAL_VALUES = {
+  serviceUuid: BLE_SERVICE_UUID,
+  versionUuid: BLE_VERSION_UUID,
+  accelerationUuid: BLE_ACCELEROMETER_UUID,
+  gyroscopeUuid: BLE_GYROSCOPE_UUID,
+};
+
 const ConfigForm = ({ className, setUuids }) => {
   const [invalidFields, setInvalidFields] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
-  const newUuids = useRef({
-    serviceUuid: BLE_SERVICE_UUID,
-    versionUuid: BLE_VERSION_UUID,
-    accelerationUuid: BLE_ACCELEROMETER_UUID,
-    gyroscopeUuid: BLE_GYROSCOPE_UUID,
-  });
+  const newUuids = useRef({ ...INITIAL_VALUES });
 
   const onChangeHandler = useCallback((type, newUuid) => {
-    newUuids.current[type] = newUuid;
+    if (newUuid.length === 0) {
+      newUuids.current[type] = INITIAL_VALUES[type];
+    } else {
+      newUuids.current[type] = newUuid;
+    }
   }, []);
 
   const onSaveConfig = useCallback(() => {

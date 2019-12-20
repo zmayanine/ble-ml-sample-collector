@@ -15,13 +15,13 @@ const InfoAndConfig = ({ className, setCustomUuids }) => (
       data-show-screen-name="false"
       data-show-count="false"
     >
-        Follow
+      Follow
     </a>
     <span>&nbsp;&nbsp;Have questions? Feel free to DM me.</span>
     <p>
       <span>
         The default UUIDs used for searching and connecting to BLE services service and
-        characteristics, are the ones used in the sketches for Arduino Nano 33 BLE Sense board.
+        characteristics are the ones used in the sketches for Arduino Nano 33 BLE Sense board.
         Sketches can be found&nbsp;
       </span>
       <a
@@ -29,7 +29,7 @@ const InfoAndConfig = ({ className, setCustomUuids }) => (
         rel="noopener noreferrer"
         target="_blank"
       >
-          here
+        here
       </a>
       <span>
         &nbsp;within a repo of this project.
@@ -37,24 +37,24 @@ const InfoAndConfig = ({ className, setCustomUuids }) => (
     </p>
     <p>
       <span>
-        Before proceeding checkout the&nbsp;
+        Before proceeding check out the&nbsp;
       </span>
       <a
         href="https://github.com/zmayanine/ble-ml-sample-collector"
         rel="noopener noreferrer"
         target="_blank"
       >
-          README
+        README
       </a>
       <span>
-        &nbsp;file for additional information, specifically around how data should be structured
+        &nbsp;file for more information, specifically around how data should be structured
         for each sensor and sent to this app.
       </span>
     </p>
     <p>
       <span>
-        If you wish to use default UUIDs, just go on an click on Connect. Otherwise,
-        just fill out and save the new UUIDs in the following form:
+        If you wish to use default UUIDs, just go on and click on Connect. Otherwise,
+        please fill out and save the new UUIDs in the following form:
       </span>
     </p>
     <ConfigForm
