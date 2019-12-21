@@ -7,6 +7,7 @@ import {
   BLE_GYROSCOPE_UUID,
   BLE_VERSION_UUID,
   BLE_SERVICE_UUID,
+  CHART_INITIAL_DATA,
 } from './constants';
 import bleConnect from './bleConnect';
 import bleSubscribe from './bleSubscribe';
@@ -26,6 +27,7 @@ export {
   BLE_GYROSCOPE_UUID,
   BLE_VERSION_UUID,
   BLE_SERVICE_UUID,
+  CHART_INITIAL_DATA,
 };
 
 /* BLE helpers */

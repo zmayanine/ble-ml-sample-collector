@@ -1,26 +1,28 @@
 import PropTypes from 'prop-types';
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
 } from 'react';
 import styled from 'styled-components';
-import bleSubscribe from '../utils/bleSubscribe';
+import { Context } from '../context';
 import {
   CHART_INITIAL_DATA,
   IMU_NUM_SAMPLES,
-} from '../utils/constants';
+  bleSubscribe,
+} from '../utils';
 import MultilineChart from './MultilineChart';
 
 const IMUDataPreview = ({
   metadata,
   className,
-  bleService,
   addSample,
 }) => {
   const [chartData, setChartData] = useState([...CHART_INITIAL_DATA]);
   const buffer = useRef([]);
+  const { bleService } = useContext(Context);
 
   const handleData = useCallback((event) => {
     const receivedData = event.target.value;
@@ -81,7 +83,6 @@ IMUDataPreview.propTypes = {
     sensor: PropTypes.string.isRequired,
   }).isRequired,
   className: PropTypes.string,
-  bleService: PropTypes.shape({}).isRequired,
   addSample: PropTypes.func.isRequired,
 };
 
