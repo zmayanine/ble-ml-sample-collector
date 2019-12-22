@@ -20,14 +20,16 @@ My main goal for starters, is to support all sensors that are available on the A
 then go from there._
 
 #### Supported boards
-In theory, any board is supported. The data from sensors just needs to be formatted correctly upon sending it
+In theory, every board is supported. The data from sensors just needs to be formatted correctly upon sending it
 via Bluetooth. Some of the boards already have Bluetooth module on it, but there are plenty that don't. In that case,
 you could get a [HC-05 Bluetooth module](https://components101.com/wireless/hc-05-bluetooth-module) which is 
 fairly cheap, widely used and supported. But any module will do.
 
 This project contains sketches for Arduino Nano 33 BLE Sense board and those can be found in `./sketches` directory
 of the project. Here is the list of the available ones:
-* [Nano33Sense_IMUCapture.ino](sketches/Nano33Sense_IMUCapture.ino) - Capturing acceleration and gyroscope samples
+* [Nano33Sense_IMUAcceleration.ino](sketches/Nano33Sense_IMUAcceleration.ino) - Capturing acceleration samples
+* [Nano33Sense_IMUGyroscope.ino](sketches/Nano33Sense_IMUGyroscope.ino) - Capturing gyroscope samples
+* [Nano33Sense_IMUAccelAndGyro.ino](sketches/Nano33Sense_IMUAccelAndGyro.ino) - Capturing acceleration and gyroscope samples
 
 ### Bluetooth Data Interface
 Following paragraphs explain how you should format your data upon sending it over Bluetooth. Every measurement should
