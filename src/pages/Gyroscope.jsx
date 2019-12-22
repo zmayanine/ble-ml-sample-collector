@@ -5,11 +5,11 @@ import { IMUDataPreview, RawSamples } from '../components';
 import { Context } from '../context';
 import { MEASURE_TYPE, parseMeasurement, RAW_DATA_CSV_HEADER } from '../utils';
 
-const Acceleration = ({ className }) => {
+const Gyroscope = ({ className }) => {
   const { uuids } = useContext(Context);
   const [rawData, setRawData] = useState({
     count: 0,
-    rawData: RAW_DATA_CSV_HEADER.ACCELERATION,
+    rawData: RAW_DATA_CSV_HEADER.GYROSCOPE,
   });
 
   const addSample = useCallback(({ samples }) => {
@@ -19,7 +19,7 @@ const Acceleration = ({ className }) => {
   const clearSamples = useCallback(() => {
     setRawData({
       count: 0,
-      rawData: RAW_DATA_CSV_HEADER.ACCELERATION,
+      rawData: RAW_DATA_CSV_HEADER.GYROSCOPE,
     });
   }, []);
 
@@ -28,13 +28,13 @@ const Acceleration = ({ className }) => {
       <IMUDataPreview
         addSample={addSample}
         metadata={{
-          type: MEASURE_TYPE.ACCELERATION,
-          uuid: uuids.accelerationUuid,
-          sensor: 'Accelerometer',
+          type: MEASURE_TYPE.GYROSCOPE,
+          uuid: uuids.gyroscopeUuid,
+          sensor: 'Gyroscope',
         }}
       />
       <RawSamples
-        type={MEASURE_TYPE.ACCELERATION}
+        type={MEASURE_TYPE.GYROSCOPE}
         data={rawData}
         clearData={clearSamples}
       />
@@ -42,14 +42,14 @@ const Acceleration = ({ className }) => {
   );
 };
 
-Acceleration.propTypes = {
+Gyroscope.propTypes = {
   /**
    * Custom component class name
    */
   className: PropTypes.string.isRequired,
 };
 
-export default styled(Acceleration)`
+export default styled(Gyroscope)`
   display: grid;
   grid-auto-flow: row;
   height: 100%;

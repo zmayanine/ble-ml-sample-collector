@@ -49,7 +49,6 @@ const IMUDataPreview = ({
       setChartData(buffer.current);
 
       addSample({
-        type: metadata.type,
         samples: buffer.current,
       });
 

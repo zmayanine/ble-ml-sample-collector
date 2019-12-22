@@ -10,11 +10,6 @@ const RawSamples = ({
 }) => {
   const textareaRef = useRef(null);
 
-  const onClear = useCallback(() => {
-    clearData(type);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onCopy = useCallback((event) => {
     textareaRef.current.select();
     document.execCommand('copy');
@@ -46,7 +41,7 @@ const RawSamples = ({
         <button
           className="btn btn-small"
           type="button"
-          onClick={onClear}
+          onClick={clearData}
         >
           Clear
         </button>
@@ -92,7 +87,8 @@ export default styled(RawSamples)`
   padding 10px;
 
   .raw-data-textarea {
-    height: 100%;
+    min-height: 300px;
+    height: auto;
     width: 100%;
     resize: none;
     font-family: monospace;
