@@ -8,7 +8,7 @@ const InfoAndConfig = ({ className, setCustomUuids }) => (
     <p>
       <span>Waiting for device to connect</span>
     </p>
-    <h2>Hello, friend!</h2>
+    <h2>Hello there!</h2>
     <a
       href="https://twitter.com/zmayanine?ref_src=twsrc%5Etfw"
       className="twitter-follow-button"
@@ -17,7 +17,6 @@ const InfoAndConfig = ({ className, setCustomUuids }) => (
     >
       Follow
     </a>
-    <span>&nbsp;&nbsp;Have questions? Feel free to DM me.</span>
     <p>
       <span>
         The default UUIDs used for searching and connecting to BLE services service and

@@ -85,10 +85,12 @@ export default styled(RawSamples)`
   height: 100%;
   width: 100%;
   padding 10px;
+  display: flex;
+  flex-direction: column;
 
   .raw-data-textarea {
-    min-height: 300px;
-    height: auto;
+    min-height: 150px;
+    height: inherit;
     width: 100%;
     resize: none;
     font-family: monospace;

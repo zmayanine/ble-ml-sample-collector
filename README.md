@@ -14,10 +14,9 @@ grouped, parsed and made available in CSV format.
 The following sensors are supported:
 * Accelerometer
 * Gyroscope
+* Color
 
-_Note: This project is still WIP and as such, support for other sensors will be added sequentially. 
-My main goal for starters, is to support all sensors that are available on the Arduino Nano 33 BLE Sense board and
-then go from there._
+_Note: This project is still WIP and as such, support for other sensors will be added sequentially._
 
 #### Supported boards
 In theory, every board is supported. The data from sensors just needs to be formatted correctly upon sending it
@@ -30,6 +29,7 @@ of the project. Here is the list of the available ones:
 * [Nano33Sense_IMUAcceleration.ino](sketches/Nano33Sense_IMUAcceleration.ino) - Capturing acceleration samples
 * [Nano33Sense_IMUGyroscope.ino](sketches/Nano33Sense_IMUGyroscope.ino) - Capturing gyroscope samples
 * [Nano33Sense_IMUAccelAndGyro.ino](sketches/Nano33Sense_IMUAccelAndGyro.ino) - Capturing acceleration and gyroscope samples
+* [Nano33Sense_ColorSampler.ino](sketches/Nano33Sense_ColorSampler.ino) - Capturing color samples
 
 ### Bluetooth Data Interface
 Following paragraphs explain how you should format your data upon sending it over Bluetooth. Every measurement should
@@ -72,5 +72,24 @@ float gyroscope[3] = {gX, gY, gZ};
 
 // Send sample
 bleGyroCharacteristic.writeValue(gyroscope, sizeOf(gyroscope));
+
+```
+
+#### Color
+Send color samples to app, in following format:
+```c
+// Init
+int r, g, b;
+
+// Get readings
+r = ...;
+g = ...;
+b = ...;
+
+// Format for sending
+unsigned short colors[3] = {r, g, b};
+
+// Send sample
+colorCharacteristic.writeValue(colors, sizeOf(colors));
 
 ```

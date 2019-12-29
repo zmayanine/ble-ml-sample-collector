@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { getMultilineChartConfig } from '../utils';
+import { getBarChartConfig } from '../../utils';
 
-const MultilineChart = ({ chartData, type }) => {
+const BarChart = ({ chartData, type }) => {
   const chart = useRef(null);
 
   useEffect(() => {
-    chart.current = getMultilineChartConfig({ chartData, type });
+    chart.current = getBarChartConfig({ chartData, type });
 
     return () => {
       if (chart.current) {
@@ -24,20 +24,15 @@ const MultilineChart = ({ chartData, type }) => {
       id={`chartdiv-${type}`}
       style={{
         width: '100%',
-        height: '350px',
+        height: '100%',
       }}
     />
   );
 };
 
-MultilineChart.propTypes = {
-  chartData: PropTypes.arrayOf(PropTypes.shape({
-    sequence: PropTypes.number.isRequired,
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    z: PropTypes.number.isRequired,
-  })).isRequired,
+BarChart.propTypes = {
+  chartData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   type: PropTypes.string.isRequired,
 };
 
-export default MultilineChart;
+export default BarChart;

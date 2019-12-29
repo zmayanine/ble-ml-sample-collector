@@ -1,6 +1,7 @@
 import React from 'react';
 import AccelAndGyro from './AccelAndGyro';
 import Acceleration from './Acceleration';
+import Color from './Color';
 import Gyroscope from './Gyroscope';
 
 const PAGES_CONFIG = {
@@ -23,6 +24,11 @@ const PAGES_CONFIG = {
     id: 'accelerationAndGyroscope',
     title: 'Acceleration & Gyroscope',
     Component: () => (<AccelAndGyro />),
+  },
+  color: {
+    id: 'color',
+    title: 'Color',
+    Component: () => (<Color />),
   },
 };
 

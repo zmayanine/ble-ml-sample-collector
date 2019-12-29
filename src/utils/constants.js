@@ -1,18 +1,23 @@
 /* Default BLE service UUIDs. They match with the provided
  * sketch file for Arduino Nano 33 BLE Sense */
-export const BLE_SERVICE_UUID = '992c0325-0000-4e93-9659-e66dd8104f31';
-export const BLE_VERSION_UUID = '992c0325-1001-4e93-9659-e66dd8104f31';
-export const BLE_ACCELEROMETER_UUID = '992c0325-2001-4e93-9659-e66dd8104f31';
-export const BLE_GYROSCOPE_UUID = '992c0325-2002-4e93-9659-e66dd8104f31';
+export const BLE_UUIDS = {
+  SERVICE: '992c0325-0000-4e93-9659-e66dd8104f31',
+  VERSION: '992c0325-1001-4e93-9659-e66dd8104f31',
+  ACCELERATION: '992c0325-2001-4e93-9659-e66dd8104f31',
+  GYROSCOPE: '992c0325-2002-4e93-9659-e66dd8104f31',
+  COLOR: '992c0325-2003-4e93-9659-e66dd8104f31',
+};
 
 export const MEASURE_TYPE = {
   ACCELERATION: 'acceleration',
   GYROSCOPE: 'gyroscope',
+  COLOR: 'color',
 };
 
 export const RAW_DATA_CSV_HEADER = {
   ACCELERATION: 'aX,aY,aZ\n',
   GYROSCOPE: 'gX,gY,gZ\n',
+  COLOR: 'r,g,b\n',
 };
 
 export const BLUETOOTH_STATE = {

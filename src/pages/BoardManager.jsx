@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-  BLE_ACCELEROMETER_UUID,
-  BLE_GYROSCOPE_UUID,
-  BLE_VERSION_UUID,
-  BLE_SERVICE_UUID,
-} from '../utils';
+import { BLE_UUIDS } from '../utils';
 import { BleConnect, InfoAndConfig } from '../components';
 import ContentPage from './ContentPage';
 import { ContextProvider } from '../context';
@@ -14,10 +9,11 @@ import { ContextProvider } from '../context';
 const BoardManager = ({ className }) => {
   const [bleService, setBleService] = useState(null);
   const [uuids, setUuids] = useState({
-    serviceUuid: BLE_SERVICE_UUID,
-    versionUuid: BLE_VERSION_UUID,
-    accelerationUuid: BLE_ACCELEROMETER_UUID,
-    gyroscopeUuid: BLE_GYROSCOPE_UUID,
+    serviceUuid: BLE_UUIDS.SERVICE,
+    versionUuid: BLE_UUIDS.VERSION,
+    accelerationUuid: BLE_UUIDS.ACCELERATION,
+    gyroscopeUuid: BLE_UUIDS.GYROSCOPE,
+    colorUuid: BLE_UUIDS.COLOR,
   });
 
   return (

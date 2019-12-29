@@ -19,6 +19,7 @@ AccelAndGyro.propTypes = {
 };
 
 export default styled(AccelAndGyro)`
+  height: 100%;
   display: grid;
   grid-auto-flow: column;
 `;

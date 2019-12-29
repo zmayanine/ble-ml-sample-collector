@@ -13,7 +13,7 @@ import {
   IMU_NUM_SAMPLES,
   bleSubscribe,
 } from '../utils';
-import MultilineChart from './MultilineChart';
+import MultilineChart from './charts/MultilineChart';
 
 const IMUDataPreview = ({
   metadata,
@@ -81,15 +81,13 @@ IMUDataPreview.propTypes = {
     uuid: PropTypes.string.isRequired,
     sensor: PropTypes.string.isRequired,
   }).isRequired,
-  className: PropTypes.string,
+  className: PropTypes.string.isRequired,
   addSample: PropTypes.func.isRequired,
-};
-
-IMUDataPreview.defaultProps = {
-  className: '',
 };
 
 export default styled(IMUDataPreview)`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
