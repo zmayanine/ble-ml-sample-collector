@@ -4,14 +4,16 @@
 #define BLE_SENSE_UUID(id) ("992c0325-" id "-4e93-9659-e66dd8104f31")
 
 // Version, 1. B is Major, 2. B is Minor, 3. & 4. B are PATCH
-const int VERSION = 0x01000000;
+// 1.0.0 - Initial version
+// 1.0.1 - Changed format of data that's sent
+const int VERSION = 0x01000001;
 
 // BLE definitions
 BLEService                      service                     (BLE_SENSE_UUID("0000"));
 BLEUnsignedIntCharacteristic    versionCharacteristic       (BLE_SENSE_UUID("1001"), BLERead); // 1 int
-BLECharacteristic               colorCharacteristic         (BLE_SENSE_UUID("2003"), BLENotify, 3 * sizeof(unsigned short)); // Array of 16-bit, RGB
+BLECharacteristic               colorCharacteristic         (BLE_SENSE_UUID("2003"), BLENotify, 3 * sizeof(float)); // Array of 3 floats, RGB
 
-String deviceName = "BLEMLCapture-";
+String deviceName = "BLEColorCapture-";
 
 void setup() {
     // Init 
@@ -70,7 +72,7 @@ void loop() {
                     float greenRatio = g / sum;
                     float blueRatio = b / sum;
 
-                    unsigned short colors[3] = { redRatio, greenRatio, blueRatio };
+                    float colors[3] = { redRatio, greenRatio, blueRatio };
                     colorCharacteristic.writeValue(colors, sizeof(colors));
                 }
             }

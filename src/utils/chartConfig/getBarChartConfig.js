@@ -35,7 +35,6 @@ const getBarChartConfig = ({ chartData, type }) => {
 
   const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   valueAxis.min = 0;
-  valueAxis.max = 255;
 
   // Create series
   const series = chart.series.push(new am4charts.ColumnSeries());

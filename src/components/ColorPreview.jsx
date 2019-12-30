@@ -2,7 +2,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useState
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -12,13 +12,13 @@ import BarChart from './charts/BarChart';
 
 const chartDataTemplate = (data) => [{
   color: 'Red',
-  value: data[0],
+  value: Math.round(data[0] * 256),
 }, {
   color: 'Green',
-  value: data[1],
+  value: Math.round(data[1] * 256),
 }, {
   color: 'Blue',
-  value: data[2],
+  value: Math.round(data[2] * 256),
 }];
 
 const ColorPreview = ({ className, metadata, addSample }) => {
@@ -31,8 +31,8 @@ const ColorPreview = ({ className, metadata, addSample }) => {
     let packetPointer = 0;
 
     for (let i = 0; i < tempData.length; i += 1) {
-      tempData[i] = receivedData.getUint16(packetPointer, true);
-      packetPointer += 2;
+      tempData[i] = receivedData.getFloat32(packetPointer, true);
+      packetPointer += 4;
     }
 
     setChartData(() => chartDataTemplate(tempData));
@@ -49,7 +49,7 @@ const ColorPreview = ({ className, metadata, addSample }) => {
 
   return (
     <div className={className}>
-      <p>{`${metadata.sensor} - last measurement`}</p>
+      <p>{`${metadata.sensor} - last measurement (normalized)`}</p>
       <BarChart
         chartData={chartData}
         type={metadata.type}

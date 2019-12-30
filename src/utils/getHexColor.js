@@ -5,7 +5,7 @@
  */
 const getHexColor = (rgbValue) => {
   const result = rgbValue.map((colorVal) => {
-    let hex = Number(colorVal).toString(16);
+    let hex = Number(Math.round(colorVal * 256)).toString(16);
     if (hex.length < 2) {
       hex = `0${hex}`;
     }

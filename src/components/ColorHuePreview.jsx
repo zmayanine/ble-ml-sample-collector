@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getHexColor } from '../utils';
 
-const Tooltip = styled.div`
+const Tooltip = styled.div.attrs((props) => ({
+  style: {
+    background: `#${props.background}`,
+  },
+}))`
   margin-top: 10px;
   position: relative;
   width: 100px;
   height: 40px;
-  background: #${(props) => props.background};
   border-radius: 6px 6px 6px 6px;
   display: flex;
   align-items: center;
